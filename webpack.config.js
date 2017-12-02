@@ -1,24 +1,30 @@
- /*
-    ./webpack.config.js
+/*
+   ./webpack.config.js
 */
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './client/index.html',
-  filename: 'index.html',
-  inject: 'body'
+    template: './client/index.html',
+    filename: 'index.html',
+    inject: 'body'
 })
+const BundleTracker = require('webpack-bundle-tracker')
+const BundleTrackerConfig = new BundleTracker({filename: './webpack-stats.json'})
+
 module.exports = {
-  entry: './client/index.js',
-  output: {
-    path: path.resolve('dist'),
-    filename: 'index_bundle.js'
-  },
-  module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+    entry: './client/index.js',
+    output: {
+        path: path.resolve('dist'),
+        filename: 'index_bundle.js'
+    },
+    module: {
+        loaders: [
+            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+            {test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/}
+        ]
+    },
+    plugins: [
+        HtmlWebpackPluginConfig,
+        BundleTrackerConfig
     ]
-  },
-  plugins: [HtmlWebpackPluginConfig]
 }

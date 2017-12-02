@@ -3,3 +3,4 @@ zappa
 zappa-django-utils
 djangorestframework
 django-storages
+django-webpack-loader
