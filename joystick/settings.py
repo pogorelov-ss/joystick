@@ -38,6 +38,8 @@ INSTALLED_APPS = [
 
     'zappa_django_utils',
     'rest_framework',
+
+    'movement',
 ]
 
 MIDDLEWARE = [
@@ -132,8 +134,12 @@ STATIC_URL = '{}/{}/'.format(AWS_STORAGE_BUCKET_DOMAIN, AWS_STATICFILES_LOCATION
 MEDIA_URL = '{}/{}/'.format(AWS_STORAGE_BUCKET_DOMAIN, AWS_MEDIAFILES_LOCATION)
 
 REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+    'DEFAULT_VERSION': 'v1',
+    # TODO: wtf check why don't work on view level
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
+        # 'rest_framework.permissions.IsAdminUser',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
     'PAGE_SIZE': 10
 }
