@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 
+from client.views import IndexView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    re_path(r'api/(?P<version>(v1|v2))/movement/', include('movement.urls'))
+    re_path(r'api/(?P<version>(v1|v2))/movement/', include('movement.urls')),
+    path('', IndexView.as_view())
+
 ]

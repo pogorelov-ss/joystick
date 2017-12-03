@@ -38,8 +38,10 @@ INSTALLED_APPS = [
 
     'zappa_django_utils',
     'rest_framework',
+    'webpack_loader',
 
     'movement',
+    'client'
 ]
 
 MIDDLEWARE = [
@@ -133,6 +135,21 @@ STATICFILES_STORAGE = 'joystick.backends.s3storage.StaticStorage'
 STATIC_URL = '{}/{}/'.format(AWS_STORAGE_BUCKET_DOMAIN, AWS_STATICFILES_LOCATION)
 MEDIA_URL = '{}/{}/'.format(AWS_STORAGE_BUCKET_DOMAIN, AWS_MEDIAFILES_LOCATION)
 
+STATICFILES_DIRS = [
+    (os.path.join(BASE_DIR, 'client')),
+]
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'webpack_bundles/',  # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
     'DEFAULT_VERSION': 'v1',
@@ -142,19 +159,4 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'PAGE_SIZE': 10
-}
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'client'),
-)
-
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-        'POLL_INTERVAL': 0.1,
-        'TIMEOUT': None,
-        'IGNORE': ['.+\.hot-update.js', '.+\.map']
-    }
 }
